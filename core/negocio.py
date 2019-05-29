@@ -19,7 +19,7 @@ class Jogo(abc.ABC):
         pass
 
 
-class Megasena():
+class Megasena(Jogo):
 
     def __init__(self, quantidade=6):
         self.numeros = []
