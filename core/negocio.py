@@ -2,16 +2,12 @@ import abc
 import random
 
 
-# TODO: Implementar jogos para lotofacil, lotomania e quina
+# TODO: Implementar jogos para lotofacil e lotomania
 
 class Jogo(abc.ABC):
 
     @abc.abstractmethod
-    def sorteio(self):
-        pass
-
-    @abc.abstractmethod
-    def adiciona_numero(self):
+    def sortear(self):
         pass
 
     @abc.abstractmethod
@@ -21,27 +17,47 @@ class Jogo(abc.ABC):
 
 class Megasena(Jogo):
 
-    def __init__(self, quantidade=6):
-        self.numeros = []
+    def __init__(self):
+        self.numeros = [i for i in range(1, 61)]
+        self.sorteados = []
+
+    def sortear(self, quantidade=6):
         if quantidade >= 6:
             self.quantidade = quantidade
         else:
             self.quantidade = 6
 
-    def sorteio(self):
-        return random.randint(1, 60)
-
-    def adiciona_numero(self):
-        while len(self.numeros) < self.quantidade:
-            numero_sorteado = self.sorteio()
-            if numero_sorteado not in self.numeros:
-                self.numeros.append(numero_sorteado)
+        self.sorteados = sorted(random.sample(self.numeros, k=self.quantidade))
 
     def __len__(self):
-        return len(self.numeros)
+        return len(self.sorteados)
 
     def __getitem__(self, item):
-        return self.numeros[item]
+        return self.sorteados[item]
 
     def __str__(self):
-        return str(self.numeros)
+        return str(self.sorteados)
+
+
+class Quina(Jogo):
+
+    def __init__(self, ):
+        self.numeros = [i for i in range(1, 81)]
+        self.sorteados = []
+
+    def sortear(self, quantidade=5):
+        if quantidade >= 5:
+            self.quantidade = quantidade
+        else:
+            self.quantidade = 5
+
+        self.sorteados = sorted(random.sample(self.numeros, k=self.quantidade))
+
+    def __len__(self):
+        return len(self.sorteados)
+
+    def __getitem__(self, item):
+        return self.sorteados[item]
+
+    def __str__(self):
+        return str(self.sorteados)
